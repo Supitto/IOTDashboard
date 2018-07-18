@@ -1,0 +1,52 @@
+		<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+			<div class="row">
+				<ol class="breadcrumb">
+					<li>
+						<a href="#">
+							<em class="fa fa-home"></em>
+						</a>
+					</li>
+					<li class="active">Admin / Sensores</li>
+				</ol>
+			</div><!--/.row-->
+
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Sensores</h1>
+				</div>
+			</div><!--/.row-->
+			
+			<div class="row">
+				<a href="<%= sensores_path(@conn, :new) %>" class="col-xs-offset-2 col-xs-8 btn btn-primary">Novo Sensor<br/></a>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-6 col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							Gerenciar Sensores
+							<span class="pull-right clickable panel-toggle ">
+								<em class="fa fa-toggle-up"></em>
+							</span>
+						</div>
+						<div class="panel-body">
+							<ul style="list-style-type: none;">
+								<%= for sensor <- @sensores do %>
+								<li class="right clearfix bg-light">
+									<span class="pull-right row"></span>
+									<div class="chat-body clearfix">
+										<p class ="col-md-2 col-xs-4" >Nome : </p>
+										<p class="col-md-4 col-xs-6"><%= sensor.nome %></p>
+										<a href="<%= sensores_path(@conn, :edit, sensor.id)%>" class="bg-default col-xs-11 col-md-offset-1 col-md-3  btn btn-primary">Atualizar</a>
+									</div>
+									
+								</li>
+								<br/>
+								<% end %>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div><!--/.col-->
+		</div>
+

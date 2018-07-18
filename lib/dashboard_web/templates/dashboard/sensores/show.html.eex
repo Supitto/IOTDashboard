@@ -1,0 +1,79 @@
+<script src="<%= static_path(@conn, "/js/chart.min.js") %>"></script>
+
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+	<div class="row">
+		<ol class="breadcrumb">
+			<li><a href="#">
+				<em class="fa fa-home"></em>
+			</a></li>
+			<li class="active">Dashboard / Sensores / <%= @sensor.nome %> </li>
+		</ol>
+	</div><!--/.row-->
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header"><%= @sensor.nome %></h1>
+		</div>
+	</div><div class="panel-body">
+    <div class="row canvas-wrapper">
+        <canvas class="col-xs-12 main-chart" id="line-chart"></canvas>
+    </div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default chat">
+				<div class="panel-heading">
+					Ultimos valores
+					
+				</div>
+				<div class="panel-body">
+					<ul id="rotator">
+						<li id='list-head' class=" clearfix">
+							<div class="row"><span class="col-xs-4">Hora</span> <strong class="col-xs-6" >Valor</strong></div>
+						</li>
+						<%= for valor <- Enum.reverse(@ultimos_valores) do %>
+						<li>
+							<div class="chat-body clearfix">
+								<div class="row"><span class="col-xs-4"><%= valor.inserted_at %></span> <strong class="col-xs-6" ><%= valor.value %></strong></div>
+							</div>
+						</li>
+						<% end %>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+</div>
+<script>
+    
+    var chart = document.getElementById("line-chart").getContext("2d");
+	window.myLine = new Chart(chart, {
+		type: 'line',
+		data: 
+		{
+			labels: [<%= for valor <- Enum.reverse(@ultimos_valores) do %>'<%= Integer.to_string(valor.inserted_at.hour)<>":"<>Integer.to_string(valor.inserted_at.minute)<>","<>Integer.to_string(valor.inserted_at.second) %>',<% end %>],
+			datasets : 
+			[
+				{
+					label: "<%= @sensor.nome %>" ,
+					fillColor : "rgba(0,100,255,255)",
+					strokeColor : "rgba(220,220,220,1)",
+					pointColor : "rgba(220,220,220,1)",
+					pointStrokeColor : "#fff",
+					pointHighlightFill : "#fff",
+					pointHighlightStroke : "rgba(220,220,220,1)",
+					data : [<%= for valor <- Enum.reverse(@ultimos_valores) do %><%= valor.value %>,<% end %>]
+				}
+			]
+    	},
+		
+            options: {
+                responsive: true,
+				maintainAspectRatio: false,
+            }
+
+	});
+	
+</script>
